@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('./partials/head') %>
+  <title>ProBlog — Read. Write. Inspire.</title>
+</head>
+<body>
+
+<%- include('./partials/nav') %>
+
+<!-- HERO -->
+<section class="container mt-5 mb-5">
+  <div class="p-5 hero-box">
+
+    <h1 class="display-5 fw-bold mb-3">
+      Welcome to <span class="text-accent">ProBlog</span>
+    </h1>
+
+    <p class="fs-5 text-muted mb-4" style="max-width:700px">
+      A modern platform to read, write and share high-quality technical and personal stories.
+    </p>
+
+    <% if (!user) { %>
+      <a href="/user/signup" class="btn btn-primary btn-lg">Start Writing</a>
+    <% } else { %>
+      <a href="/blog/add" class="btn btn-primary btn-lg">Write a Blog</a>
+    <% } %>
+
+  </div>
+</section>
+
+<!-- BLOG FEED -->
+<section class="container mb-5">
+
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h3 class="fw-bold">Latest Articles</h3>
+    <span class="text-muted"><%= blogs.length %> posts</span>
+  </div>
+
+  <% if (blogs.length === 0) { %>
+    <div class="text-center p-5">
+      <h4>No blogs yet 😢</h4>
+      <p class="text-muted">Be the first one to write something amazing.</p>
+    </div>
+  <% } %>
+
+  <div class="row g-4">
+
+    <% blogs.forEach(blog => { %>
+      <div class="col-lg-4 col-md-6">
+
+        <div class="card blog-card h-100">
+
+          <!-- IMAGE -->
+          <div class="blog-card-image">
+            <img src="<%= blog.coverImage %>" alt="<%= blog.title %>">
+          </div>
+
+          <!-- BODY -->
+          <div class="card-body d-flex flex-column">
+
+            <% if (blog.category) { %>
+              <div class="mb-2">
+                <span class="badge bg-secondary"><%= blog.category %></span>
+              </div>
+            <% } %>
+
+            <h5 class="fw-bold mb-2"><%= blog.title %></h5>
+
+            <p class="text-muted small mb-3">
+              By 
+              <a href="/profile/<%= blog.author._id %>"><%= blog.author.fullname %></a>
+              · <%= blog.readingTime %> min read
+            </p>
+
+            <div class="mt-auto d-flex justify-content-between align-items-center">
+              <a href="/blog/<%= blog.slug %>" class="btn btn-outline-primary btn-sm">
+                Read →
+              </a>
+
+              <span class="text-muted small">👁 <%= blog.views %></span>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    <% }) %>
+
+  </div>
+
+</section>
+
+<%- include('./partials/script') %>
+</body>
+</html>
+

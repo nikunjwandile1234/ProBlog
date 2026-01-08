@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <%- include('./partials/head') %>
+  <title>Create Account</title>
+</head>
+<body>
+
+<%- include('./partials/nav') %>
+
+<div class="container mt-5" style="max-width:400px">
+
+  <h3>Create Account</h3>
+
+  <form method="POST">
+    <input name="fullname" class="form-control mb-3" placeholder="Full name">
+    <input name="email" class="form-control mb-3" placeholder="Email">
+    <input type="password" name="password" class="form-control mb-3" placeholder="Password">
+    <button class="btn btn-dark w-100">Create</button>
+  </form>
+
+</div>
+
+</body>
+</html>

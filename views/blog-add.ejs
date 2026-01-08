@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <%- include('./partials/head') %>
+  <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+</head>
+<body>
+
+<%- include('./partials/nav') %>
+
+<div class="container mt-4" style="max-width:800px">
+
+<form method="POST" action="/blog" enctype="multipart/form-data">
+
+
+<input name="title" class="form-control mb-2" placeholder="Title" required>
+<input name="category" class="form-control mb-2" placeholder="Category">
+<input name="tags" class="form-control mb-2" placeholder="tags (comma separated)">
+<input type="file" name="cover" class="form-control mb-2" required>
+
+<div id="editor" style="height:300px"></div>
+<input type="hidden" name="content" id="content">
+
+<button class="btn btn-dark mt-3">Publish</button>
+
+</form>
+
+</div>
+
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+<script>
+const quill = new Quill('#editor', { theme: 'snow' });
+document.querySelector("form").onsubmit = () => {
+  document.getElementById("content").value = quill.root.innerHTML;
+};
+</script>
+
+</body>
+</html>
+

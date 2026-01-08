@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <%- include('../partials/head') %>
+</head>
+<body>
+
+<%- include('../partials/nav') %>
+
+<div class="container mt-4">
+  <h3>Admin Dashboard</h3>
+  <p>Total Blogs: <%= stats.blogs %></p>
+  <p>Total Users: <%= stats.users %></p>
+
+  <table class="table">
+    <% blogs.forEach(b => { %>
+      <tr>
+        <td><%= b.title %></td>
+        <td><%= b.author.fullname %></td>
+        <td><%= b.status %></td>
+      </tr>
+    <% }) %>
+  </table>
+</div>
+
+</body>
+</html>

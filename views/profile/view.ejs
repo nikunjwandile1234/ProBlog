@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <%- include('../partials/head') %>
+</head>
+<body>
+
+<%- include('../partials/nav') %>
+
+<div class="container mt-4">
+  <h3><%= profileUser.fullname %>'s Profile</h3>
+
+  <h5>Blogs</h5>
+  <% blogs.forEach(b => { %>
+    <div class="card p-3 mb-2">
+      <a href="/blog/<%= b.slug %>"><%= b.title %></a>
+    </div>
+  <% }) %>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('./partials/head') %>
+  <title>Sign In</title>
+</head>
+<body>
+
+<%- include('./partials/nav') %>
+
+<div class="container mt-5" style="max-width:420px">
+
+  <div class="card p-4">
+
+    <h3 class="mb-3 text-center">Welcome back 👋</h3>
+    <p class="text-muted text-center mb-4">Sign in to continue to ProBlog</p>
+
+    <% if (typeof error !== "undefined") { %>
+      <div class="alert alert-danger"><%= error %></div>
+    <% } %>
+
+    <form method="POST" action="/user/signin">
+
+      <div class="mb-3">
+        <input 
+          name="email" 
+          type="email"
+          class="form-control" 
+          placeholder="Email address"
+          required
+        >
+      </div>
+
+      <div class="mb-3">
+        <input 
+          type="password" 
+          name="password" 
+          class="form-control" 
+          placeholder="Password"
+          required
+        >
+      </div>
+
+      <button class="btn btn-primary w-100 mb-3">Sign In</button>
+
+    </form>
+
+    <!-- 🔥 CREATE ACCOUNT LINK -->
+   <div class="text-center mt-3">
+  <span style="color: var(--text);">Don't have an account?</span>
+  <a href="/user/signup" class="fw-semibold" style="color: var(--accent);">
+    Create one
+  </a>
+</div>
+
+
+  </div>
+
+</div>
+
+<%- include('./partials/script') %>
+
+</body>
+</html>
+

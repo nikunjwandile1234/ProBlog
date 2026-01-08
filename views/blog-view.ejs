@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('./partials/head') %>
+  <title><%= blog.title %> - ProBlog</title>
+</head>
+<body>
+
+<%- include('./partials/nav') %>
+
+<div class="container mt-5 mb-5" style="max-width:900px">
+
+  <!-- TITLE -->
+  <h1 class="fw-bold mb-3"><%= blog.title %></h1>
+
+  <!-- META -->
+  <div class="d-flex flex-wrap align-items-center gap-3 mb-4 text-muted">
+    <span>
+      By <a href="/profile/<%= blog.author._id %>"><%= blog.author.fullname %></a>
+    </span>
+    <span>• <%= blog.readingTime %> min read</span>
+    <span>• 👁 <%= blog.views %></span>
+  </div>
+
+  <!-- DELETE BUTTON -->
+  <% if (user && (user._id === blog.author._id.toString() || user.role === "ADMIN")) { %>
+    <form 
+      action="/blog/delete/<%= blog._id %>" 
+      method="POST"
+      onsubmit="return confirm('Are you sure you want to delete this blog?');"
+      class="mb-4"
+    >
+      <button class="btn btn-sm btn-danger">🗑 Delete Blog</button>
+    </form>
+  <% } %>
+
+  <!-- HERO IMAGE -->
+  <div class="blog-hero mb-5">
+    <img src="<%= blog.coverImage %>" alt="<%= blog.title %>">
+    <div class="blog-hero-overlay"></div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="blog-content fs-5 mb-5" style="line-height:1.8;">
+    <%- blog.content %>
+  </div>
+
+  <!-- TAGS -->
+  <% if (blog.tags && blog.tags.length) { %>
+    <div class="mb-4">
+      <% blog.tags.forEach(tag => { %>
+        <a href="/tag/<%= tag %>" class="badge bg-secondary me-2">#<%= tag %></a>
+      <% }) %>
+    </div>
+  <% } %>
+
+  <hr class="my-5">
+
+  <!-- COMMENTS -->
+  <h4 class="mb-4">Comments (<%= comments.length %>)</h4>
+
+  <% if (user) { %>
+    <form action="/blog/comment/<%= blog._id %>" method="POST" class="mb-4">
+      <textarea 
+        name="content" 
+        class="form-control mb-2" 
+        placeholder="Write a comment..."
+        required
+      ></textarea>
+      <button class="btn btn-primary">Post Comment</button>
+    </form>
+  <% } else { %>
+    <p>
+      <a href="/user/signin">Sign in</a> to comment.
+    </p>
+  <% } %>
+
+  <% comments.forEach(c => { %>
+    <div class="card p-3 mb-3">
+      <strong><%= c.author.fullname %></strong>
+      <div class="mt-1"><%= c.content %></div>
+    </div>
+  <% }) %>
+
+</div>
+
+<%- include('./partials/script') %>
+</body>
+</html>
