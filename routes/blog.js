@@ -23,6 +23,8 @@ router.get("/add", requireAuth, (req, res) => {
 // Create blog
 router.post("/", requireAuth, upload.single("cover"), async (req, res) => {
   try {
+    console.log("CONTENT RECEIVED:", req.body.content);
+
     const { title, content, tags, category } = req.body;
 
     const slug =
@@ -46,6 +48,7 @@ router.post("/", requireAuth, upload.single("cover"), async (req, res) => {
       category,
       readingTime,
     });
+
 
     return res.redirect("/blog/" + blog.slug);
   } catch (err) {
