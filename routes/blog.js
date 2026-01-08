@@ -23,9 +23,14 @@ router.get("/add", requireAuth, (req, res) => {
 // Create blog
 router.post("/", requireAuth, upload.single("cover"), async (req, res) => {
   try {
-    console.log("CONTENT RECEIVED:", req.body.content);
+    console.log("BODY:", req.body); // 👈 DEBUG
+    console.log("CONTENT:", req.body.content); // 👈 DEBUG
 
     const { title, content, tags, category } = req.body;
+
+    if (!content || content.trim() === "") {
+      return res.status(400).send("Content is missing");
+    }
 
     const slug =
       title
@@ -41,7 +46,7 @@ router.post("/", requireAuth, upload.single("cover"), async (req, res) => {
     const blog = await Blog.create({
       title,
       slug,
-      content,
+      content, // ✅ THIS WAS MISSING BEFORE
       coverImage: "/uploads/" + req.file.filename,
       author: req.user._id,
       tags: tags ? tags.split(",").map(t => t.trim()).filter(Boolean) : [],
@@ -49,13 +54,13 @@ router.post("/", requireAuth, upload.single("cover"), async (req, res) => {
       readingTime,
     });
 
-
     return res.redirect("/blog/" + blog.slug);
   } catch (err) {
     console.error(err);
     return res.status(500).send("Error creating blog");
   }
 });
+
 
 // View single blog
 router.get("/:slug", async (req, res) => {
