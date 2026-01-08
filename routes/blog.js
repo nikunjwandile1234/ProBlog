@@ -1,5 +1,6 @@
 const express = require("express");
 const multer = require("multer");
+const path = require("path");
 const Blog = require("../models/blog");
 const Comment = require("../models/comment");
 const { requireAuth } = require("../middlewares/auth");
@@ -8,14 +9,15 @@ const router = express.Router();
 
 // ================= MULTER CONFIG =================
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, "./public/uploads"),
+  destination: (req, file, cb) => cb(null, path.join(__dirname, "../public/uploads")),
   filename: (req, file, cb) => cb(null, Date.now() + "-" + file.originalname),
 });
+
 const upload = multer({ storage });
 
 // ================= ROUTES =================
 
-// Render add blog page
+// Add blog page
 router.get("/add", requireAuth, (req, res) => {
   res.render("blog-add", { user: req.user });
 });
@@ -23,20 +25,17 @@ router.get("/add", requireAuth, (req, res) => {
 // Create blog
 router.post("/", requireAuth, upload.single("cover"), async (req, res) => {
   try {
-    console.log("BODY:", req.body); // 👈 DEBUG
-    console.log("CONTENT:", req.body.content); // 👈 DEBUG
+    console.log("BODY:", req.body); // DEBUG
+    console.log("CONTENT:", req.body.content); // DEBUG
 
     const { title, content, tags, category } = req.body;
 
     if (!content || content.trim() === "") {
-      return res.status(400).send("Content is missing");
+      return res.status(400).send("Content missing");
     }
 
     const slug =
-      title
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/(^-|-$)/g, "") +
+      title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "") +
       "-" +
       Date.now();
 
@@ -46,7 +45,7 @@ router.post("/", requireAuth, upload.single("cover"), async (req, res) => {
     const blog = await Blog.create({
       title,
       slug,
-      content, // ✅ THIS WAS MISSING BEFORE
+      content, // ✅ IMPORTANT
       coverImage: "/uploads/" + req.file.filename,
       author: req.user._id,
       tags: tags ? tags.split(",").map(t => t.trim()).filter(Boolean) : [],
@@ -61,8 +60,7 @@ router.post("/", requireAuth, upload.single("cover"), async (req, res) => {
   }
 });
 
-
-// View single blog
+// View blog
 router.get("/:slug", async (req, res) => {
   try {
     const blog = await Blog.findOneAndUpdate(
@@ -86,47 +84,32 @@ router.get("/:slug", async (req, res) => {
   }
 });
 
-// Add comment
+// Comment
 router.post("/comment/:id", requireAuth, async (req, res) => {
-  try {
-    await Comment.create({
-      content: req.body.content,
-      blog: req.params.id,
-      author: req.user._id,
-    });
+  await Comment.create({
+    content: req.body.content,
+    blog: req.params.id,
+    author: req.user._id,
+  });
 
-    res.redirect("back");
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Failed to add comment");
-  }
+  res.redirect("back");
 });
 
-// Delete blog (author or admin)
+// Delete blog
 router.post("/delete/:id", requireAuth, async (req, res) => {
-  try {
-    const blog = await Blog.findById(req.params.id);
+  const blog = await Blog.findById(req.params.id);
 
-    if (!blog) return res.redirect("/");
+  if (!blog) return res.redirect("/");
 
-    if (
-      blog.author.toString() !== req.user._id &&
-      req.user.role !== "ADMIN"
-    ) {
-      return res.status(403).send("Not allowed");
-    }
-
-    await Blog.findByIdAndDelete(req.params.id);
-    await Comment.deleteMany({ blog: blog._id });
-
-    res.redirect("/");
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Failed to delete");
+  if (blog.author.toString() !== req.user._id && req.user.role !== "ADMIN") {
+    return res.status(403).send("Not allowed");
   }
+
+  await Blog.findByIdAndDelete(req.params.id);
+  await Comment.deleteMany({ blog: blog._id });
+
+  res.redirect("/");
 });
 
 module.exports = router;
-
-
 

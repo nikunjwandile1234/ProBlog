@@ -10,83 +10,44 @@
 
 <div class="container mt-5 mb-5" style="max-width:900px">
 
-  <!-- TITLE -->
   <h1 class="fw-bold mb-3"><%= blog.title %></h1>
 
-  <!-- META -->
-  <div class="d-flex flex-wrap align-items-center gap-3 mb-4 text-muted">
-    <span>
-      By <a href="/profile/<%= blog.author._id %>"><%= blog.author.fullname %></a>
-    </span>
-    <span>• <%= blog.readingTime %> min read</span>
-    <span>• 👁 <%= blog.views %></span>
+  <div class="text-muted mb-4">
+    By <%= blog.author.fullname %> • <%= blog.readingTime %> min read • 👁 <%= blog.views %>
   </div>
 
-  <!-- DELETE BUTTON -->
   <% if (user && (user._id === blog.author._id.toString() || user.role === "ADMIN")) { %>
-    <form 
-      action="/blog/delete/<%= blog._id %>" 
-      method="POST"
-      onsubmit="return confirm('Are you sure you want to delete this blog?');"
-      class="mb-4"
-    >
-      <button class="btn btn-sm btn-danger">🗑 Delete Blog</button>
+    <form action="/blog/delete/<%= blog._id %>" method="POST">
+      <button class="btn btn-danger btn-sm mb-3">Delete</button>
     </form>
   <% } %>
 
-  <!-- HERO IMAGE -->
-  <div class="blog-hero mb-5">
-    <img 
-      src="<%= blog.coverImage %>" 
-      alt="<%= blog.title %>" 
-      style="width:100%; max-height:450px; object-fit:cover; border-radius:12px;"
-    >
-  </div>
+  <img src="<%= blog.coverImage %>" class="img-fluid rounded mb-4">
 
-  <!-- ✅ BLOG CONTENT (ALWAYS BELOW IMAGE) -->
-  <div class="blog-content fs-5 mb-5" style="line-height:1.8;">
+  <!-- CONTENT -->
+  <div class="fs-5" style="line-height:1.8;">
     <%- blog.content %>
   </div>
 
-  <!-- TAGS -->
-  <% if (blog.tags && blog.tags.length) { %>
-    <div class="mb-4">
-      <% blog.tags.forEach(tag => { %>
-        <a href="/tag/<%= tag %>" class="badge bg-secondary me-2">#<%= tag %></a>
-      <% }) %>
-    </div>
-  <% } %>
-
   <hr class="my-5">
 
-  <!-- COMMENTS -->
-  <h4 class="mb-4">Comments (<%= comments.length %>)</h4>
+  <h4>Comments (<%= comments.length %>)</h4>
 
   <% if (user) { %>
-    <form action="/blog/comment/<%= blog._id %>" method="POST" class="mb-4">
-      <textarea 
-        name="content" 
-        class="form-control mb-2" 
-        placeholder="Write a comment..."
-        required
-      ></textarea>
-      <button class="btn btn-primary">Post Comment</button>
+    <form action="/blog/comment/<%= blog._id %>" method="POST">
+      <textarea name="content" class="form-control mb-2" required></textarea>
+      <button class="btn btn-primary">Post</button>
     </form>
-  <% } else { %>
-    <p>
-      <a href="/user/signin">Sign in</a> to comment.
-    </p>
   <% } %>
 
   <% comments.forEach(c => { %>
-    <div class="card p-3 mb-3">
-      <strong><%= c.author.fullname %></strong>
-      <div class="mt-1"><%= c.content %></div>
+    <div class="card p-3 mt-3">
+      <b><%= c.author.fullname %></b>
+      <div><%= c.content %></div>
     </div>
   <% }) %>
 
 </div>
 
-<%- include('./partials/script') %>
 </body>
 </html>
