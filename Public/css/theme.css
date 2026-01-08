@@ -212,3 +212,20 @@ a:hover {
   text-decoration: underline;
 }
 
+.blog-content img {
+  max-width: 100%;
+  border-radius: 10px;
+}
+
+.blog-content h1,
+.blog-content h2,
+.blog-content h3 {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.blog-content p {
+  margin-bottom: 1rem;
+}
+
+

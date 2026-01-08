@@ -36,11 +36,14 @@
 
   <!-- HERO IMAGE -->
   <div class="blog-hero mb-5">
-    <img src="<%= blog.coverImage %>" alt="<%= blog.title %>">
-    <div class="blog-hero-overlay"></div>
+    <img 
+      src="<%= blog.coverImage %>" 
+      alt="<%= blog.title %>" 
+      style="width:100%; max-height:450px; object-fit:cover; border-radius:12px;"
+    >
   </div>
 
-  <!-- CONTENT -->
+  <!-- ✅ BLOG CONTENT (ALWAYS BELOW IMAGE) -->
   <div class="blog-content fs-5 mb-5" style="line-height:1.8;">
     <%- blog.content %>
   </div>
