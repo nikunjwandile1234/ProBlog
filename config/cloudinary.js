@@ -17,15 +17,14 @@ cloudinary.config({
 
 const storage = new CloudinaryStorage({
   cloudinary,
-  params: {
+  params: async (req, file) => ({
     folder: "problog",
-    allowed_formats: ["jpg", "png", "jpeg", "webp"],
-
-    // ✅ AUTO COMPRESS & RESIZE
+    format: "jpg",
     transformation: [
-      { width: 1200, quality: "auto", fetch_format: "auto" }
+      { width: 1200, height: 1200, crop: "limit" },
+      { quality: "auto", fetch_format: "auto" }
     ]
-  },
+  }),
 });
 
 module.exports = { cloudinary, storage };

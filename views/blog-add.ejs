@@ -8,58 +8,66 @@
 
 <%- include('./partials/nav') %>
 
-<div class="container mt-4 mb-5" style="max-width:900px">
-
-  <!-- Header -->
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <h3>✍️ Write a new blog</h3>
-    <span class="badge">Draft</span>
-  </div>
+<div class="container mt-5 mb-5" style="max-width:800px">
 
   <div class="card p-4">
 
+    <h3 class="mb-3 text-center">Write a New Blog ✍️</h3>
+
+    <p class="text-muted text-center mb-4">
+      ⚠️ Image must be less than <b>1MB</b> for mobile uploads.
+    </p>
+
+    <% if (typeof error !== "undefined") { %>
+      <div class="alert alert-danger"><%= error %></div>
+    <% } %>
+
     <form method="POST" action="/blog" enctype="multipart/form-data">
 
-      <div class="mb-3">
-        <label class="form-label">Title</label>
-        <input name="title" class="form-control" placeholder="Enter blog title" required>
-      </div>
+      <input 
+        name="title" 
+        class="form-control mb-3" 
+        placeholder="Blog Title" 
+        required
+      >
 
-      <div class="mb-3">
-        <label class="form-label">Category</label>
-        <input name="category" class="form-control" placeholder="e.g. Web Development">
-      </div>
+      <input 
+        name="category" 
+        class="form-control mb-3" 
+        placeholder="Category (e.g. AI, Web, Life)"
+      >
 
-      <div class="mb-3">
-        <label class="form-label">Tags</label>
-        <input name="tags" class="form-control" placeholder="javascript, nodejs, mongodb">
-      </div>
+      <input 
+        name="tags" 
+        class="form-control mb-3" 
+        placeholder="Tags (comma separated)"
+      >
 
-      <div class="mb-3">
-        <label class="form-label">Cover Image</label>
-        <input type="file" name="cover" class="form-control" required>
-      </div>
+      <label class="mb-1">Cover Image (Max 1MB)</label>
+      <input 
+        type="file" 
+        name="cover" 
+        class="form-control mb-3" 
+        accept="image/*"
+        required
+      >
 
-      <div class="mb-3">
-        <label class="form-label">Content</label>
-        <textarea 
-  name="content" 
-  class="form-control mb-3" 
-  rows="12"
-  placeholder="Write or paste your blog content here..."
-  required
-  autocorrect="on"
-  autocapitalize="on"
-  spellcheck="true"
-></textarea>
-      </div>
+      <!-- CONTENT -->
+      <label class="mb-1">Blog Content</label>
+      <textarea 
+        name="content" 
+        class="form-control mb-3" 
+        rows="12"
+        placeholder="Write or paste your blog content here..."
+        required
+        autocorrect="on"
+        autocapitalize="on"
+        spellcheck="true"
+      ></textarea>
 
-      <div class="d-flex justify-content-between align-items-center mt-4">
-        <small class="text-muted">
-          Tip: Use headings and paragraphs for better readability.
-        </small>
-        <button class="btn btn-accent px-4">Publish</button>
-      </div>
+      <button class="btn btn-primary w-100 btn-lg">
+        🚀 Publish Blog
+      </button>
 
     </form>
 
@@ -69,3 +77,4 @@
 
 </body>
 </html>
+

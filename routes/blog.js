@@ -10,7 +10,7 @@ const { storage } = require("../config/cloudinary");
 // ✅ LIMIT FILE SIZE TO 3MB
 const upload = multer({ 
   storage,
-  limits: { fileSize: 3 * 1024 * 1024 } // 3MB
+  limits: { fileSize: 3 * 1024 * 1024 } // ✅ 1MB LIMIT (STRICT)
 });
 
 const router = express.Router();
@@ -27,23 +27,18 @@ router.get("/add", requireAuth, (req, res) => {
 ============================= */
 router.post("/", requireAuth, upload.single("cover"), async (req, res) => {
   try {
-    const { title, content, tags, category } = req.body;
-
-    if (!content || content.trim() === "") {
-      return res.status(400).send("Content missing");
+    if (!req.file) {
+      return res.status(400).send("Image too large or missing");
     }
 
-    if (!req.file) {
-      return res.status(400).send("Cover image missing");
+    const { title, content, tags, category } = req.body;
+
+    if (!title || !content) {
+      return res.status(400).send("Missing fields");
     }
 
     const slug =
-      title
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/(^-|-$)/g, "") +
-      "-" +
-      Date.now();
+      title.toLowerCase().replace(/[^a-z0-9]+/g, "-") + "-" + Date.now();
 
     const plainText = content.replace(/<[^>]+>/g, "");
     const readingTime = Math.max(1, Math.ceil(plainText.split(" ").length / 200));
@@ -54,19 +49,20 @@ router.post("/", requireAuth, upload.single("cover"), async (req, res) => {
       content,
       coverImage: req.file.path,
       author: req.user._id,
-      tags: tags ? tags.split(",").map(t => t.trim()).filter(Boolean) : [],
+      tags: tags ? tags.split(",").map(t => t.trim()) : [],
       category,
       readingTime,
-      status: "PUBLISHED" // ✅ IMPORTANT
+      status: "PUBLISHED"
     });
 
-    return res.redirect("/blog/" + blog.slug);
+    res.redirect("/blog/" + blog.slug);
 
   } catch (err) {
-    console.error("BLOG CREATE ERROR:", err);
-    return res.status(500).send(err.message || "Upload failed");
+    console.error("UPLOAD ERROR:", err);
+    res.status(500).send("Image too large or upload failed");
   }
 });
+
 
 /* =============================
    View blog
