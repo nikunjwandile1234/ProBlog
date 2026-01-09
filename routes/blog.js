@@ -138,5 +138,33 @@ router.post("/delete/:id", requireAuth, async (req, res) => {
     res.status(500).send("Failed to delete");
   }
 });
+/* =============================
+   Delete comment
+============================= */
+router.post("/comment/delete/:id", requireAuth, async (req, res) => {
+  try {
+    const comment = await Comment.findById(req.params.id);
+
+    if (!comment) {
+      return res.redirect("back");
+    }
+
+    // Only owner or admin can delete
+    if (
+      comment.author.toString() !== req.user._id.toString() &&
+      req.user.role !== "ADMIN"
+    ) {
+      return res.status(403).send("Not allowed");
+    }
+
+    await Comment.findByIdAndDelete(req.params.id);
+
+    res.redirect("back");
+  } catch (err) {
+    console.error("DELETE COMMENT ERROR:", err);
+    res.status(500).send("Failed to delete comment");
+  }
+});
+
 
 module.exports = router;
