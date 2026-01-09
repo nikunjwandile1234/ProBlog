@@ -1,0 +1,183 @@
+/* =========================
+   GLOBAL
+========================= */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: radial-gradient(circle at top, #0f172a, #020617);
+  color: #e5e7eb;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  min-height: 100vh;
+  transition: background 0.3s, color 0.3s;
+}
+
+/* =========================
+   NAVBAR
+========================= */
+.navbar {
+  background: rgba(2,6,23,0.8) !important;
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.navbar .nav-link,
+.navbar .navbar-brand {
+  color: #e5e7eb !important;
+}
+
+.navbar .nav-link:hover {
+  color: #a5b4fc !important;
+}
+
+/* =========================
+   CONTAINER
+========================= */
+.container {
+  max-width: 1100px;
+}
+
+/* =========================
+   HERO
+========================= */
+.hero-box {
+  background: linear-gradient(135deg, rgba(59,130,246,0.15), rgba(139,92,246,0.15));
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 0 40px rgba(59,130,246,0.15);
+}
+
+/* =========================
+   BUTTONS
+========================= */
+.btn-accent {
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  color: white;
+  border: none;
+}
+
+.btn-accent:hover {
+  opacity: 0.9;
+}
+
+.btn-outline-accent {
+  border: 1px solid #3b82f6;
+  color: #3b82f6;
+}
+
+.btn-outline-accent:hover {
+  background: #3b82f6;
+  color: white;
+}
+
+/* =========================
+   BLOG CARDS
+========================= */
+.blog-card {
+  background: linear-gradient(180deg, rgba(15,23,42,0.9), rgba(2,6,23,0.9));
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.08);
+  overflow: hidden;
+  transition: 0.3s;
+}
+
+.blog-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+}
+
+.blog-card-image img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
+
+/* =========================
+   BLOG VIEW
+========================= */
+.blog-hero img {
+  width: 100%;
+  border-radius: 20px;
+  max-height: 450px;
+  object-fit: cover;
+}
+
+/* =========================
+   BLOG CONTENT
+========================= */
+.blog-content {
+  color: #e5e7eb;
+}
+
+.blog-content h1,
+.blog-content h2,
+.blog-content h3 {
+  color: white;
+}
+
+/* =========================
+   FORMS
+========================= */
+input, textarea, select {
+  background: rgba(2,6,23,0.8) !important;
+  color: white !important;
+  border: 1px solid rgba(255,255,255,0.1) !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #94a3b8;
+}
+
+/* =========================
+   TAGS
+========================= */
+.badge {
+  background: rgba(255,255,255,0.1);
+}
+
+/* =========================
+   CARDS
+========================= */
+.card {
+  background: rgba(2,6,23,0.8);
+  border: 1px solid rgba(255,255,255,0.08);
+  color: white;
+}
+
+/* =========================
+   LIGHT MODE
+========================= */
+body.light-mode {
+  background: #f8fafc;
+  color: #020617;
+}
+
+body.light-mode .navbar {
+  background: white !important;
+  border-bottom: 1px solid #ddd;
+}
+
+body.light-mode .navbar .nav-link,
+body.light-mode .navbar .navbar-brand {
+  color: #020617 !important;
+}
+
+body.light-mode .blog-card {
+  background: white;
+  color: #020617;
+}
+
+body.light-mode .card {
+  background: white;
+  color: #020617;
+}
+
+body.light-mode input,
+body.light-mode textarea,
+body.light-mode select {
+  background: white !important;
+  color: #020617 !important;
+  border: 1px solid #ccc !important;
+}
