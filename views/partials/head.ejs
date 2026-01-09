@@ -1,7 +1,32 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>ProBlog</title>
+
+<!-- Hint browser about theme -->
+<meta name="color-scheme" content="dark light">
+
+<!-- Bootstrap -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Bootstrap Icons (for theme toggle icon) -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+<!-- Main Theme -->
 <link rel="stylesheet" href="/css/theme.css">
 
+<!-- Prevent white flash: apply theme BEFORE render -->
+<script>
+  (function () {
+    try {
+      const theme = localStorage.getItem("theme");
+      if (theme === "light") {
+        document.documentElement.classList.add("light-mode");
+        document.body?.classList.add("light-mode");
+      }
+    } catch (e) {}
+  })();
+</script>
+
+<!-- Theme Toggle Logic -->
 <script src="/js/theme.js" defer></script>

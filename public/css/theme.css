@@ -1,90 +1,107 @@
-/* =========================
-   GLOBAL
-========================= */
+/* ================================
+   PROBLOG CLEAN PROFESSIONAL UI
+================================ */
+
+:root {
+  --bg: #0b1020;
+  --bg-soft: #0f172a;
+  --card: #111827;
+  --border: rgba(255,255,255,0.08);
+
+  --text: #e5e7eb;
+  --muted: #9ca3af;
+
+  --accent1: #3b82f6;
+  --accent2: #8b5cf6;
+}
+
+/* RESET */
 * {
   box-sizing: border-box;
 }
 
 body {
   margin: 0;
+  font-family: Inter, system-ui, -apple-system, sans-serif;
   background: radial-gradient(circle at top, #0f172a, #020617);
-  color: #e5e7eb;
-  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  color: var(--text);
   min-height: 100vh;
-  transition: background 0.3s, color 0.3s;
 }
 
-/* =========================
+/* FORCE TEXT VISIBILITY */
+h1,h2,h3,h4,h5,h6,p,span,div,small,a,li,label {
+  color: var(--text) !important;
+}
+
+.text-muted {
+  color: var(--muted) !important;
+}
+
+/* ================================
    NAVBAR
-========================= */
+================================ */
 .navbar {
-  background: rgba(2,6,23,0.8) !important;
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(255,255,255,0.08);
+  background: rgba(2,6,23,0.9) !important;
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
 }
 
 .navbar .nav-link,
 .navbar .navbar-brand {
-  color: #e5e7eb !important;
+  color: var(--text) !important;
 }
 
-.navbar .nav-link:hover {
-  color: #a5b4fc !important;
-}
-
-/* =========================
-   CONTAINER
-========================= */
-.container {
-  max-width: 1100px;
-}
-
-/* =========================
+/* ================================
    HERO
-========================= */
+================================ */
 .hero-box {
-  background: linear-gradient(135deg, rgba(59,130,246,0.15), rgba(139,92,246,0.15));
-  border: 1px solid rgba(255,255,255,0.1);
-  box-shadow: 0 0 40px rgba(59,130,246,0.15);
+  background: linear-gradient(135deg, rgba(59,130,246,0.18), rgba(139,92,246,0.18));
+  border: 1px solid var(--border);
+  border-radius: 28px;
+  padding: 72px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
 }
 
-/* =========================
+.hero-box h1 {
+  font-size: 3.2rem;
+  font-weight: 800;
+  margin-bottom: 16px;
+}
+
+.hero-box p {
+  font-size: 1.15rem;
+  color: #c7d2fe !important;
+  max-width: 720px;
+}
+
+/* ================================
    BUTTONS
-========================= */
+================================ */
+.btn-primary,
 .btn-accent {
-  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-  color: white;
-  border: none;
+  background: linear-gradient(135deg, var(--accent1), var(--accent2)) !important;
+  border: none !important;
+  color: white !important;
 }
 
-.btn-accent:hover {
-  opacity: 0.9;
-}
-
-.btn-outline-accent {
-  border: 1px solid #3b82f6;
-  color: #3b82f6;
-}
-
-.btn-outline-accent:hover {
-  background: #3b82f6;
-  color: white;
-}
-
-/* =========================
-   BLOG CARDS
-========================= */
+/* ================================
+   CARDS
+================================ */
+.card,
 .blog-card {
-  background: linear-gradient(180deg, rgba(15,23,42,0.9), rgba(2,6,23,0.9));
-  border-radius: 16px;
-  border: 1px solid rgba(255,255,255,0.08);
+  background: var(--card) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 18px;
   overflow: hidden;
-  transition: 0.3s;
+}
+
+.blog-card {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .blog-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.6);
 }
 
 .blog-card-image img {
@@ -93,85 +110,63 @@ body {
   object-fit: cover;
 }
 
-/* =========================
-   BLOG VIEW
-========================= */
-.blog-hero img {
-  width: 100%;
-  border-radius: 20px;
-  max-height: 450px;
-  object-fit: cover;
-}
-
-/* =========================
-   BLOG CONTENT
-========================= */
-.blog-content {
-  color: #e5e7eb;
-}
-
-.blog-content h1,
-.blog-content h2,
-.blog-content h3 {
-  color: white;
-}
-
-/* =========================
+/* ================================
    FORMS
-========================= */
+================================ */
 input, textarea, select {
-  background: rgba(2,6,23,0.8) !important;
-  color: white !important;
-  border: 1px solid rgba(255,255,255,0.1) !important;
+  background: #020617 !important;
+  color: var(--text) !important;
+  border: 1px solid var(--border) !important;
 }
 
-input::placeholder,
-textarea::placeholder {
-  color: #94a3b8;
+::placeholder {
+  color: var(--muted) !important;
 }
 
-/* =========================
-   TAGS
-========================= */
-.badge {
-  background: rgba(255,255,255,0.1);
+/* ================================
+   BLOG PAGE
+================================ */
+.blog-content {
+  line-height: 1.8;
+  font-size: 1.05rem;
 }
 
-/* =========================
-   CARDS
-========================= */
-.card {
-  background: rgba(2,6,23,0.8);
-  border: 1px solid rgba(255,255,255,0.08);
-  color: white;
-}
-
-/* =========================
+/* ================================
    LIGHT MODE
-========================= */
+================================ */
 body.light-mode {
   background: #f8fafc;
   color: #020617;
 }
 
-body.light-mode .navbar {
-  background: white !important;
-  border-bottom: 1px solid #ddd;
-}
-
-body.light-mode .navbar .nav-link,
-body.light-mode .navbar .navbar-brand {
+body.light-mode h1,
+body.light-mode h2,
+body.light-mode h3,
+body.light-mode h4,
+body.light-mode h5,
+body.light-mode h6,
+body.light-mode p,
+body.light-mode span,
+body.light-mode div,
+body.light-mode small,
+body.light-mode a,
+body.light-mode li {
   color: #020617 !important;
 }
 
-body.light-mode .blog-card {
-  background: white;
-  color: #020617;
+body.light-mode .text-muted {
+  color: #475569 !important;
 }
 
-body.light-mode .card {
-  background: white;
-  color: #020617;
+body.light-mode .navbar {
+  background: white !important;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+body.light-mode .card,
+body.light-mode .blog-card {
+  background: white !important;
+  color: #020617 !important;
 }
 
 body.light-mode input,
@@ -179,5 +174,5 @@ body.light-mode textarea,
 body.light-mode select {
   background: white !important;
   color: #020617 !important;
-  border: 1px solid #ccc !important;
+  border: 1px solid #e5e7eb !important;
 }

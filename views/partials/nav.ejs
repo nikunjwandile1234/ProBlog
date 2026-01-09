@@ -1,17 +1,18 @@
-<nav class="navbar navbar-expand-lg navbar-glass sticky-top">
+<nav class="navbar navbar-expand-lg sticky-top">
   <div class="container">
 
     <!-- Brand -->
-    <a class="navbar-brand fw-bold text-white d-flex align-items-center gap-2" href="/">
+    <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="/">
       ⚡ <span>ProBlog</span>
     </a>
 
     <!-- Search -->
-    <form action="/search" class="d-none d-md-flex me-3 nav-search">
+    <form action="/search" class="d-none d-md-flex me-3">
       <input 
         name="q" 
         class="form-control form-control-sm" 
         placeholder="Search articles..." 
+        style="min-width:260px"
       />
     </form>
 
@@ -19,15 +20,17 @@
     <div class="d-flex align-items-center gap-3">
 
       <!-- Theme toggle -->
-      <button id="themeToggle" class="btn btn-icon" title="Toggle theme">🌓</button>
+      <button id="themeToggle" class="btn btn-sm btn-outline-secondary" type="button" title="Toggle theme">
+        <i class="bi bi-sun"></i>
+      </button>
 
-      <ul class="navbar-nav d-flex flex-row align-items-center gap-3">
+      <ul class="navbar-nav d-flex flex-row align-items-center gap-3 mb-0">
 
         <% if (locals.user) { %>
 
           <% if (locals.user.role === "ADMIN") { %>
             <li class="nav-item">
-              <a class="nav-link nav-link-badge" href="/admin">Admin</a>
+              <a class="nav-link" href="/admin">Admin</a>
             </li>
           <% } %>
 
@@ -40,7 +43,7 @@
           </li>
 
           <li class="nav-item">
-            <a class="btn btn-outline-light btn-sm" href="/user/logout">Logout</a>
+            <a class="btn btn-outline-danger btn-sm" href="/user/logout">Logout</a>
           </li>
 
         <% } else { %>
@@ -50,7 +53,7 @@
           </li>
 
           <li class="nav-item">
-            <a class="btn btn-primary btn-sm" href="/user/signup">Get Started</a>
+            <a class="btn btn-accent btn-sm" href="/user/signup">Get Started</a>
           </li>
 
         <% } %>

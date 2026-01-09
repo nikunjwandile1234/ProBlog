@@ -6,12 +6,26 @@ const { requireAdmin } = require("../middlewares/admin");
 const router = express.Router();
 
 router.get("/", requireAdmin, async (req, res) => {
-  const stats = {
-    blogs: await Blog.countDocuments(),
-    users: await User.countDocuments()
-  };
-  const blogs = await Blog.find().populate("author");
-  res.render("admin/dashboard", { stats, blogs });
+  try {
+    const stats = {
+      blogs: await Blog.countDocuments(),
+      users: await User.countDocuments(),
+    };
+
+    const blogs = await Blog.find()
+      .populate("author")
+      .sort({ createdAt: -1 });
+
+    res.render("admin/dashboard", {
+      user: req.user,
+      stats,
+      blogs,
+    });
+  } catch (err) {
+    console.error("ADMIN DASHBOARD ERROR:", err);
+    res.status(500).send("Admin panel error");
+  }
 });
 
 module.exports = router;
+

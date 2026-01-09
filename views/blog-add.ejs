@@ -8,30 +8,59 @@
 
 <%- include('./partials/nav') %>
 
-<div class="container mt-4" style="max-width:800px">
+<div class="container mt-4 mb-5" style="max-width:900px">
 
-<form method="POST" action="/blog" enctype="multipart/form-data">
+  <!-- Header -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h3>✍️ Write a new blog</h3>
+    <span class="badge">Draft</span>
+  </div>
 
-  <input name="title" class="form-control mb-3" placeholder="Title" required>
+  <div class="card p-4">
 
-  <input name="category" class="form-control mb-3" placeholder="Category">
+    <form method="POST" action="/blog" enctype="multipart/form-data">
 
-  <input name="tags" class="form-control mb-3" placeholder="Tags (comma separated)">
+      <div class="mb-3">
+        <label class="form-label">Title</label>
+        <input name="title" class="form-control" placeholder="Enter blog title" required>
+      </div>
 
-  <input type="file" name="cover" class="form-control mb-3" required>
+      <div class="mb-3">
+        <label class="form-label">Category</label>
+        <input name="category" class="form-control" placeholder="e.g. Web Development">
+      </div>
 
-  <!-- NORMAL TEXTAREA -->
-  <textarea 
-    name="content" 
-    class="form-control mb-3" 
-    rows="10" 
-    placeholder="Write your blog content here..." 
-    required
-  ></textarea>
+      <div class="mb-3">
+        <label class="form-label">Tags</label>
+        <input name="tags" class="form-control" placeholder="javascript, nodejs, mongodb">
+      </div>
 
-  <button class="btn btn-dark">Publish</button>
+      <div class="mb-3">
+        <label class="form-label">Cover Image</label>
+        <input type="file" name="cover" class="form-control" required>
+      </div>
 
-</form>
+      <div class="mb-3">
+        <label class="form-label">Content</label>
+        <textarea 
+          name="content" 
+          class="form-control" 
+          rows="12" 
+          placeholder="Write your blog content here..." 
+          required
+        ></textarea>
+      </div>
+
+      <div class="d-flex justify-content-between align-items-center mt-4">
+        <small class="text-muted">
+          Tip: Use headings and paragraphs for better readability.
+        </small>
+        <button class="btn btn-accent px-4">Publish</button>
+      </div>
+
+    </form>
+
+  </div>
 
 </div>
 

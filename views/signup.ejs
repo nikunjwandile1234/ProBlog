@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <%- include('./partials/head') %>
   <title>Create Account</title>
@@ -8,18 +8,64 @@
 
 <%- include('./partials/nav') %>
 
-<div class="container mt-5" style="max-width:400px">
+<div class="container mt-5 mb-5" style="max-width:420px">
 
-  <h3>Create Account</h3>
+  <div class="card p-4">
 
-  <form method="POST">
-    <input name="fullname" class="form-control mb-3" placeholder="Full name">
-    <input name="email" class="form-control mb-3" placeholder="Email">
-    <input type="password" name="password" class="form-control mb-3" placeholder="Password">
-    <button class="btn btn-dark w-100">Create</button>
-  </form>
+    <h3 class="mb-2 text-center">Create Account 🚀</h3>
+    <p class="text-muted text-center mb-4">Join ProBlog and start writing</p>
+
+    <% if (typeof error !== "undefined" && error) { %>
+      <div class="alert alert-danger"><%= error %></div>
+    <% } %>
+
+    <form method="POST" action="/user/signup">
+
+      <div class="mb-3">
+        <label class="form-label">Full name</label>
+        <input 
+          name="name"
+          class="form-control"
+          placeholder="Your name"
+          required
+        >
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input 
+          name="email"
+          type="email"
+          class="form-control"
+          placeholder="you@example.com"
+          required
+        >
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Password</label>
+        <input 
+          type="password"
+          name="password"
+          class="form-control"
+          placeholder="Minimum 6 characters"
+          required
+        >
+      </div>
+
+      <button class="btn btn-accent w-100 mb-3">Create Account</button>
+
+    </form>
+
+    <div class="text-center mt-3">
+      <span class="text-muted">Already have an account?</span>
+      <a href="/user/signin" class="fw-semibold">Sign in</a>
+    </div>
+
+  </div>
 
 </div>
 
+<%- include('./partials/script') %>
 </body>
 </html>

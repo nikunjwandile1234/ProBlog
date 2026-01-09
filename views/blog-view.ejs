@@ -12,8 +12,8 @@
 
   <h1 class="fw-bold mb-3"><%= blog.title %></h1>
 
-  <div class="text-muted mb-4">
-    By <%= blog.author.fullname %> • <%= blog.readingTime %> min read • 👁 <%= blog.views %>
+  <div class="blog-meta mb-4">
+    By <%= blog.author.name %> • <%= blog.readingTime %> min read • 👁 <%= blog.views %>
   </div>
 
   <% if (user && (user._id === blog.author._id.toString() || user.role === "ADMIN")) { %>
@@ -24,7 +24,6 @@
 
   <img src="<%= blog.coverImage %>" class="img-fluid rounded mb-4">
 
-  <!-- CONTENT -->
   <div class="fs-5" style="line-height:1.8;">
     <%- blog.content %>
   </div>
@@ -42,7 +41,7 @@
 
   <% comments.forEach(c => { %>
     <div class="card p-3 mt-3">
-      <b><%= c.author.fullname %></b>
+      <b><%= c.author.name %></b>
       <div><%= c.content %></div>
     </div>
   <% }) %>
@@ -51,3 +50,5 @@
 
 </body>
 </html>
+
+

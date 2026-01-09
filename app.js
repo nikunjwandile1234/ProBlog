@@ -16,38 +16,57 @@ const Blog = require("./models/blog");
 const app = express();
 const PORT = process.env.PORT || 8000;
 
+/* ================== VERCEL FIX ================== */
+app.set("trust proxy", 1);
 
+/* ================== DB CONNECT ================== */
 mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log("MongoDB Connected"));
+  .then(() => console.log("✅ MongoDB Connected"))
+  .catch((err) => console.error("❌ MongoDB Error:", err));
 
+/* ================== MIDDLEWARE ================== */
 app.use(express.urlencoded({ extended: true }));
-
 app.use(express.json());
 app.use(cookieParser());
 app.use(checkForAuthCookie("token"));
-app.use(express.static(path.join(__dirname, "public")));
 
+/* ================== STATIC ================== */
+app.use(express.static(path.join(__dirname, "public"), {
+  maxAge: "7d",
+  etag: false
+}));
 
+/* ================== VIEW ENGINE ================== */
 app.set("view engine", "ejs");
 app.set("views", path.resolve("./views"));
 
+/* ================== ROUTES ================== */
+
 // Home
 app.get("/", async (req, res) => {
-  const blogs = await Blog.find({ status: "PUBLISHED" })
-    .populate("author")
-    .sort({ createdAt: -1 });
+  try {
+    const blogs = await Blog.find({ status: "PUBLISHED" })
+      .populate("author")
+      .sort({ createdAt: -1 });
 
-  res.render("home", { user: req.user, blogs });
+    res.render("home", { user: req.user, blogs });
+  } catch (err) {
+    res.status(500).send("Server Error");
+  }
 });
 
 // Search
 app.get("/search", async (req, res) => {
-  const q = req.query.q || "";
-  const blogs = await Blog.find({
-    title: { $regex: q, $options: "i" }
-  }).populate("author");
+  try {
+    const q = req.query.q || "";
+    const blogs = await Blog.find({
+      title: { $regex: q, $options: "i" }
+    }).populate("author");
 
-  res.render("home", { user: req.user, blogs });
+    res.render("home", { user: req.user, blogs });
+  } catch (err) {
+    res.status(500).send("Server Error");
+  }
 });
 
 // Filters
@@ -61,11 +80,18 @@ app.get("/category/:cat", async (req, res) => {
   res.render("home", { user: req.user, blogs });
 });
 
+/* ================== MODULE ROUTES ================== */
 app.use("/user", userRoutes);
 app.use("/blog", blogRoutes);
 app.use("/admin", requireAuth, adminRoutes);
 app.use("/profile", profileRoutes);
 
-app.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`));
+/* ================== START ================== */
+if (process.env.NODE_ENV !== "production") {
+  app.listen(PORT, () => console.log(`🚀 Server running at http://localhost:${PORT}`));
+}
+
+/* ================== EXPORT FOR VERCEL ================== */
+module.exports = app;
 
 

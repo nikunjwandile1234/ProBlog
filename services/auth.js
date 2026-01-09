@@ -1,14 +1,17 @@
 const JWT = require("jsonwebtoken");
-const SECRET = process.env.JWT_SECRET;
-
+const SECRET = process.env.JWT_SECRET || "devsecret123";
 
 function createTokenForUser(user) {
-  return JWT.sign({
-    _id: user._id,
-    fullname: user.fullname,
-    email: user.email,
-    role: user.role
-  }, SECRET);
+  return JWT.sign(
+    {
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+    },
+    SECRET,
+    { expiresIn: "7d" }
+  );
 }
 
 function validateToken(token) {
@@ -16,5 +19,4 @@ function validateToken(token) {
 }
 
 module.exports = { createTokenForUser, validateToken };
-
 

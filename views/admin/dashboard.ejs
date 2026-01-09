@@ -8,20 +8,69 @@
 <%- include('../partials/nav') %>
 
 <div class="container mt-4">
-  <h3>Admin Dashboard</h3>
-  <p>Total Blogs: <%= stats.blogs %></p>
-  <p>Total Users: <%= stats.users %></p>
 
-  <table class="table">
-    <% blogs.forEach(b => { %>
-      <tr>
-        <td><%= b.title %></td>
-        <td><%= b.author.fullname %></td>
-        <td><%= b.status %></td>
-      </tr>
-    <% }) %>
-  </table>
+  <!-- Header -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h3>🛠️ Admin Dashboard</h3>
+    <span class="badge">Admin Panel</span>
+  </div>
+
+  <!-- Stats -->
+  <div class="row mb-4">
+    <div class="col-md-6">
+      <div class="card p-3">
+        <h5>Total Blogs</h5>
+        <h2><%= stats.blogs %></h2>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card p-3">
+        <h5>Total Users</h5>
+        <h2><%= stats.users %></h2>
+      </div>
+    </div>
+  </div>
+
+  <!-- Blog Table -->
+  <div class="card p-3">
+    <h5 class="mb-3">All Blogs</h5>
+
+    <div class="table-responsive">
+      <table class="table table-borderless align-middle mb-0">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Status</th>
+            <th>Views</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% blogs.forEach(b => { %>
+            <tr>
+              <td>
+                <strong><%= b.title %></strong>
+              </td>
+              <td>
+                <%= b.author ? b.author.name : "Unknown" %>
+              </td>
+              <td>
+                <span class="badge">
+                  <%= b.status %>
+                </span>
+              </td>
+              <td>
+                <%= b.views || 0 %>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
 </div>
 
 </body>
 </html>
+
