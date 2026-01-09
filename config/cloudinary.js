@@ -20,8 +20,10 @@ const storage = new CloudinaryStorage({
   params: async (req, file) => ({
     folder: "problog",
     format: "jpg",
+
+    // ✅ FORCE OPTIMIZATION
     transformation: [
-      { width: 1200, height: 1200, crop: "limit" },
+      { width: 1600, height: 1600, crop: "limit" },
       { quality: "auto", fetch_format: "auto" }
     ]
   }),

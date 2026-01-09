@@ -4,14 +4,10 @@ const Blog = require("../models/blog");
 const Comment = require("../models/comment");
 const { requireAuth } = require("../middlewares/auth");
 
-// Cloudinary storage
 const { storage } = require("../config/cloudinary");
 
-// ✅ LIMIT FILE SIZE TO 3MB
-const upload = multer({ 
-  storage,
-  limits: { fileSize: 3 * 1024 * 1024 } // ✅ 1MB LIMIT (STRICT)
-});
+// ⚠️ IMPORTANT: NO hard limit here (mobile bug)
+const upload = multer({ storage });
 
 const router = express.Router();
 
@@ -27,14 +23,19 @@ router.get("/add", requireAuth, (req, res) => {
 ============================= */
 router.post("/", requireAuth, upload.single("cover"), async (req, res) => {
   try {
-    if (!req.file) {
-      return res.status(400).send("Image too large or missing");
-    }
-
     const { title, content, tags, category } = req.body;
 
     if (!title || !content) {
-      return res.status(400).send("Missing fields");
+      return res.status(400).render("blog-add", { user: req.user, error: "Missing fields" });
+    }
+
+    if (!req.file) {
+      return res.status(400).render("blog-add", { user: req.user, error: "Image upload failed" });
+    }
+
+    // ✅ MANUAL FILE SIZE CHECK (SAFE FOR MOBILE)
+    if (req.file.size && req.file.size > 2 * 1024 * 1024) {
+      return res.status(400).render("blog-add", { user: req.user, error: "Image must be under 2MB" });
     }
 
     const slug =
@@ -59,10 +60,13 @@ router.post("/", requireAuth, upload.single("cover"), async (req, res) => {
 
   } catch (err) {
     console.error("UPLOAD ERROR:", err);
-    res.status(500).send("Image too large or upload failed");
+
+    return res.status(500).render("blog-add", { 
+      user: req.user, 
+      error: "Upload failed. Please try another image or network." 
+    });
   }
 });
-
 
 /* =============================
    View blog
